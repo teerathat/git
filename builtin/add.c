@@ -191,7 +191,7 @@ static int edit_patch(int argc, const char **argv, const char *prefix)
 	out = xopen(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	rev.diffopt.file = xfdopen(out, "w");
 	rev.diffopt.close_file = 1;
-	run_diff_files(&rev, 0);
+	run_diff_files(&rev, NULL, 0);
 
 	if (launch_editor(file, NULL, NULL))
 		die(_("editing patch failed"));
@@ -553,8 +553,8 @@ int cmd_add(int argc, const char **argv, const char *prefix)
 		exit_status |= renormalize_tracked_files(&pathspec, flags);
 	else
 		exit_status |= add_files_to_cache(the_repository, prefix,
-						  &pathspec, include_sparse,
-						  flags);
+						  &pathspec, NULL,
+						  include_sparse, flags);
 
 	if (add_new_files)
 		exit_status |= add_files(&dir, flags);
